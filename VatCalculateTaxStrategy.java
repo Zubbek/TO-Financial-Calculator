@@ -1,12 +1,23 @@
 public class VatCalculateTaxStrategy implements ITaxStrategy{
 
-    private double taxState = 0;
+    private double taxPercent = 0;
+
+    private boolean isNetto;
+
+    public VatCalculateTaxStrategy(double taxPercent, boolean isNetto)  {
+        this.taxPercent = taxPercent;
+        this.isNetto = isNetto;
+    }
+
     @Override
     public double calculate(double income) {
-        return income * taxState;
+        if(isNetto) {
+            return income + (income * taxPercent);
+        }
+        return income - (income * taxPercent);
     }
 
     public void setTaxState(double taxState) {
-        this.taxState = taxState;
+        this.taxPercent = taxState;
     }
 }

@@ -1,16 +1,15 @@
 public class HealthInsuranceCommand implements IInsuranceCommand {
 
-    private TaxContextStrategy taxContext;
 
     private IInsuranceCommand retirementInsuranceCommand;
     private IInsuranceCommand pensionInsuranceCommand;
     private IInsuranceCommand sicknessInsuranceCommand;
 
-    public HealthInsuranceCommand(TaxContextStrategy taxContext,
+
+    public HealthInsuranceCommand(
                                   IInsuranceCommand retirementInsuranceCommand,
                                   IInsuranceCommand pensionInsuranceCommand,
                                   IInsuranceCommand sicknessInsuranceCommand) {
-        this.taxContext = taxContext;
         this.retirementInsuranceCommand = retirementInsuranceCommand;
         this.pensionInsuranceCommand = pensionInsuranceCommand;
         this.sicknessInsuranceCommand = sicknessInsuranceCommand;
@@ -23,7 +22,7 @@ public class HealthInsuranceCommand implements IInsuranceCommand {
         double pensionTax = pensionInsuranceCommand.execute(amount);
         double sicknessTax = sicknessInsuranceCommand.execute(amount);
 
-        // Oblicz składkę zdrowotną od ceny brutto pomniejszonej o podatki
+//         Oblicz składkę zdrowotną od ceny brutto pomniejszonej o podatki
         double netAmount = amount - retirementTax - pensionTax - sicknessTax;
         double healthInsuranceRate = 0.09; // Przykładowa stawka składki zdrowotnej
         return netAmount * healthInsuranceRate;

@@ -1,9 +1,9 @@
-public class finalTaxCalculator {
+public class FinalTaxCalculator {
 
     private double deductibleCoast = 250;
 
 
-    public finalTaxCalculator(double deductibleCoast) {
+    public FinalTaxCalculator(double deductibleCoast) {
         this.deductibleCoast = deductibleCoast;
     }
 
