@@ -6,6 +6,8 @@ public class ContractOfMandateTaxStrategy implements ITaxStrategy{
 
     private double borderlineAmount = 200;
 
+    private double specialTaxRate = 0.12;
+
     private double deductibleCoast;
     private IInsuranceCommand healthTax;
     private IInsuranceCommand pensionTax;
@@ -31,7 +33,7 @@ public class ContractOfMandateTaxStrategy implements ITaxStrategy{
     public double calculate(double income) {
 
         if (income <= borderlineAmount) {
-            return income - (income * 0.12);
+            return income - (income * specialTaxRate);
         }
 
         if (hasDiscount) {

@@ -16,16 +16,12 @@ public class TaxCalculatorInteractive extends JFrame {
 
     private double deductibleCoast = 250;
 
-    private double employmentAmount = 4242;
+    private final IInsuranceCommand retirementTax = new RetirementInsurenceCommand();
+    private final IInsuranceCommand pensionTax = new PensionInsuranceCommand();
+    private final IInsuranceCommand sicknessTax = new SicknessInsuranceCommand();
+    private final IInsuranceCommand healthTax = new HealthInsuranceCommand(retirementTax, pensionTax, sicknessTax);
 
-    private double mandateAmount = 200;
-
-    private IInsuranceCommand retirementTax = new RetirementInsurenceCommand();
-    private IInsuranceCommand pensionTax = new PensionInsuranceCommand();
-    private IInsuranceCommand sicknessTax = new SicknessInsuranceCommand();
-    private IInsuranceCommand healthTax = new HealthInsuranceCommand(retirementTax, pensionTax, sicknessTax);
-
-    private PensionTaxCommand paymentTax = new PensionTaxCommand(deductibleCoast, retirementTax, pensionTax, sicknessTax);
+    private final PensionTaxCommand paymentTax = new PensionTaxCommand(deductibleCoast, retirementTax, pensionTax, sicknessTax);
 
     private ITaxStrategy taxStrategy;
 
@@ -85,7 +81,8 @@ public class TaxCalculatorInteractive extends JFrame {
                 taxStrategy = new EmploymentContractTaxStrategy(hasDiscount, deductibleCoast, retirementTax, pensionTax, sicknessTax, healthTax, paymentTax);
             }
             case 2 -> { // Umowa zlecenie
-                deductibleCoast = income * 0.20;
+                double mandateSpecialTaxRate = 0.20;
+                deductibleCoast = income * mandateSpecialTaxRate;
                 paymentTax.setDeductibleCoast(deductibleCoast);
                 taxStrategy = new ContractOfMandateTaxStrategy(hasDiscount, hasDues, deductibleCoast, retirementTax, pensionTax, sicknessTax, healthTax, paymentTax);
             }
@@ -143,6 +140,7 @@ public class TaxCalculatorInteractive extends JFrame {
 
     private void displayEmploymentContractDetails(boolean hasDiscount, double amount) {
 
+        double employmentAmount = 4242;
         if (amount < employmentAmount) {
             resultLabel.setText("Podana kwota jest mniejsza od kwoty minimalnej\n wprowadź poprawą kwotę:\n");
         }
@@ -156,10 +154,10 @@ public class TaxCalculatorInteractive extends JFrame {
             detailsTextArea.append("Składka zdrowotna: " + healthTax.execute(amount) + "\n");
 
             if (!hasDiscount) {
-                taxStrategy = new EmploymentContractTaxStrategy(hasDiscount, deductibleCoast, retirementTax, pensionTax, sicknessTax, healthTax, paymentTax);
+                taxStrategy = new EmploymentContractTaxStrategy(false, deductibleCoast, retirementTax, pensionTax, sicknessTax, healthTax, paymentTax);
                 detailsTextArea.append("Zaliczka na podatek dochodowy: " + paymentTax.execute(amount) + "\n");
             } else {
-                taxStrategy = new EmploymentContractTaxStrategy(hasDiscount, deductibleCoast, retirementTax, pensionTax, sicknessTax, healthTax, paymentTax);
+                taxStrategy = new EmploymentContractTaxStrategy(true, deductibleCoast, retirementTax, pensionTax, sicknessTax, healthTax, paymentTax);
                 detailsTextArea.append("Podatek: 0 (Jesteś zwolniony z opłacenia zaliczki na podatek dochodowy :)\n");
             }
         }
@@ -170,13 +168,14 @@ public class TaxCalculatorInteractive extends JFrame {
             resultLabel.setText("Błędna kwota dochodu");
         }
 
+        double mandateAmount = 200;
         if (amount <= mandateAmount && amount > 0) {
             detailsTextArea.append("Składki ubezpieczeniowe:\n");
             detailsTextArea.append("Zaliczka na podatek zryczałtowany: " + paymentTax.execute(amount) + "\n");
         }
         else if (hasDiscount) {
             detailsTextArea.append("Podatek: 0 (Jesteś zwolniony z płacenia wszystkich składek :)\n");
-        } else if (!hasDues && !hasDiscount) {
+        } else if (!hasDues) {
             detailsTextArea.append("Składki ubezpieczeniowe:\n");
             detailsTextArea.append("Zaliczka na podatek dochodowy: " + paymentTax.execute(amount) + "\n");
         } else {
