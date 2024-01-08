@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+
 public class HealthInsuranceCommand implements IInsuranceCommand {
 
 
@@ -5,6 +7,7 @@ public class HealthInsuranceCommand implements IInsuranceCommand {
     private IInsuranceCommand pensionInsuranceCommand;
     private IInsuranceCommand sicknessInsuranceCommand;
 
+    double taxRate = 0.09;
 
     public HealthInsuranceCommand(
                                   IInsuranceCommand retirementInsuranceCommand,
@@ -24,7 +27,9 @@ public class HealthInsuranceCommand implements IInsuranceCommand {
 
 //         Oblicz składkę zdrowotną od ceny brutto pomniejszonej o podatki
         double netAmount = amount - retirementTax - pensionTax - sicknessTax;
-        double healthInsuranceRate = 0.09; // Przykładowa stawka składki zdrowotnej
-        return netAmount * healthInsuranceRate;
+        double finalTax = netAmount * taxRate;
+        BigDecimal bigDecimal = new BigDecimal(finalTax);
+        bigDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return bigDecimal.doubleValue();
     }
 }

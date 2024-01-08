@@ -1,26 +1,33 @@
 public class EmploymentContractTaxStrategy implements ITaxStrategy{
 
-    private boolean hasDiscount = true;
+    private boolean hasDiscount;
 
-    private double deductibleCoast = 250;
-    private IInsuranceCommand healthInsuranceCommand;
+    private double deductibleCoast;
+    private IInsuranceCommand healthTax;
+    private IInsuranceCommand pensionTax;
 
-    private SocialDuesCalculator socialDuesCalculator;
+    private IInsuranceCommand retirementTax;
 
-    public EmploymentContractTaxStrategy(boolean hasDiscount, double deductibleCoast, IInsuranceCommand healthInsuranceCommand, SocialDuesCalculator socialDuesCalculator) {
+    private IInsuranceCommand sicknesthTax;
+
+    private IInsuranceCommand paymentthTax;
+
+
+    public EmploymentContractTaxStrategy(boolean hasDiscount, double deductibleCoast, IInsuranceCommand retirementTax, IInsuranceCommand paymentTax, IInsuranceCommand sicknesthtTax, IInsuranceCommand healthTax, IInsuranceCommand pensionTax) {
         this.hasDiscount = hasDiscount;
         this.deductibleCoast = deductibleCoast;
-        this.healthInsuranceCommand = healthInsuranceCommand;
-        this.socialDuesCalculator = socialDuesCalculator;
+        this.retirementTax = retirementTax;
+        this.paymentthTax = paymentTax;
+        this.sicknesthTax = sicknesthtTax;
+        this.healthTax = healthTax;
+        this.pensionTax = pensionTax;
     }
     @Override
     public double calculate(double income) {
-        DuesCalculator dues = new DuesCalculator(healthInsuranceCommand);
-        FinalTaxCalculator finalTax = new FinalTaxCalculator(deductibleCoast);
 
         if (hasDiscount) {
-            return income - dues.calculateAllTaxes(income, socialDuesCalculator) - finalTax.finalTaxCalculate(income, socialDuesCalculator);
+            return income - retirementTax.execute(income) - paymentthTax.execute(income) - sicknesthTax.execute(income) - healthTax.execute(income);
         }
-        return income - dues.calculateAllTaxes(income, socialDuesCalculator);
+        return income - retirementTax.execute(income) - paymentthTax.execute(income) - sicknesthTax.execute(income) - healthTax.execute(income) - pensionTax.execute(income);
     }
 }

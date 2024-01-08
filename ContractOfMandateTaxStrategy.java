@@ -1,28 +1,44 @@
 public class ContractOfMandateTaxStrategy implements ITaxStrategy{
 
-    private boolean hasDiscount = false;
+    private boolean hasDiscount;
 
-    private double deductibleCoast = 250;
+    private boolean hasDues;
 
-    private IInsuranceCommand iInsuranceCommand;
+    private double borderlineAmount = 200;
 
-    private SocialDuesCalculator socialDuesCalculator;
+    private double deductibleCoast;
+    private IInsuranceCommand healthTax;
+    private IInsuranceCommand pensionTax;
 
-    public ContractOfMandateTaxStrategy(boolean hasDiscount, double deductibleCoast, IInsuranceCommand iInsuranceCommand, SocialDuesCalculator socialDuesCalculator) {
+    private IInsuranceCommand retirementTax;
+
+    private IInsuranceCommand sicknesthTax;
+
+    private PensionTaxCommand paymentTax;
+
+
+    public ContractOfMandateTaxStrategy(boolean hasDiscount, boolean hasDues, double deductibleCoast, IInsuranceCommand retirementTax, IInsuranceCommand pensionTax, IInsuranceCommand sicknesthtTax, IInsuranceCommand healthTax, PensionTaxCommand paymentTax) {
         this.hasDiscount = hasDiscount;
+        this.hasDues = hasDues;
         this.deductibleCoast = deductibleCoast;
-        this.iInsuranceCommand = iInsuranceCommand;
-        this.socialDuesCalculator = socialDuesCalculator;
+        this.retirementTax = retirementTax;
+        this.pensionTax = pensionTax;
+        this.sicknesthTax = sicknesthtTax;
+        this.healthTax = healthTax;
+        this.paymentTax = paymentTax;
     }
     @Override
     public double calculate(double income) {
-        DuesCalculator dues = new DuesCalculator(iInsuranceCommand);
-        FinalTaxCalculator finalTax = new FinalTaxCalculator(deductibleCoast);
+
+        if (income <= borderlineAmount) {
+            return income - (income * 0.12);
+        }
 
         if (hasDiscount) {
             return income;
+        } else if (!hasDues && !hasDiscount) {
+            return income - paymentTax.execute(income);
         }
-        return income - dues.calculateAllTaxes(income, socialDuesCalculator) - finalTax.finalTaxCalculate(income, socialDuesCalculator);
+        return income - retirementTax.execute(income) - pensionTax.execute(income) - sicknesthTax.execute(income) - healthTax.execute(income)- paymentTax.execute(income);
     }
-
 }
