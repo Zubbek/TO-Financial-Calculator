@@ -4,9 +4,9 @@ import Interface.ITaxStrategy;
 
 public class VatCalculateTaxStrategy implements ITaxStrategy {
 
-    private double taxPercent = 0;
+    private double taxPercent;
 
-    private boolean isNetto;
+    private final boolean isNetto;
 
     public VatCalculateTaxStrategy(double taxPercent, boolean isNetto)  {
         this.taxPercent = taxPercent;

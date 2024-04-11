@@ -3,13 +3,14 @@ package Command;
 import Interface.IInsuranceCommand;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class HealthInsuranceCommand implements IInsuranceCommand {
 
 
-    private IInsuranceCommand retirementInsuranceCommand;
-    private IInsuranceCommand pensionInsuranceCommand;
-    private IInsuranceCommand sicknessInsuranceCommand;
+    private final IInsuranceCommand retirementInsuranceCommand;
+    private final IInsuranceCommand pensionInsuranceCommand;
+    private final IInsuranceCommand sicknessInsuranceCommand;
 
     double taxRate = 0.09;
 
@@ -33,7 +34,7 @@ public class HealthInsuranceCommand implements IInsuranceCommand {
         double netAmount = amount - retirementTax - pensionTax - sicknessTax;
         double finalTax = netAmount * taxRate;
         BigDecimal bigDecimal = new BigDecimal(finalTax);
-        bigDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+        bigDecimal = bigDecimal.setScale(2, RoundingMode.HALF_UP);
         return bigDecimal.doubleValue();
     }
 }

@@ -111,6 +111,7 @@ public class TaxCalculatorInteractive extends JFrame {
 
             if (contractType == 3) { // Jeśli wybrano VAT, pobierz stawkę VAT
                 String selectedVatRate = (String) vatRateComboBox.getSelectedItem();
+                assert selectedVatRate != null;
                 vatRate = switch (selectedVatRate) {
                     case "23%" -> 23.0;
                     case "8%" -> 8.0;

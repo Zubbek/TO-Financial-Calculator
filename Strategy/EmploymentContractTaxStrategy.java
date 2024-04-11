@@ -5,17 +5,17 @@ import Interface.ITaxStrategy;
 
 public class EmploymentContractTaxStrategy implements ITaxStrategy {
 
-    private boolean hasDiscount;
+    private final boolean hasDiscount;
 
-    private double deductibleCoast;
-    private IInsuranceCommand healthTax;
-    private IInsuranceCommand pensionTax;
+    private final double deductibleCoast;
+    private final IInsuranceCommand healthTax;
+    private final IInsuranceCommand pensionTax;
 
-    private IInsuranceCommand retirementTax;
+    private final IInsuranceCommand retirementTax;
 
-    private IInsuranceCommand sicknesthTax;
+    private final IInsuranceCommand sicknesthTax;
 
-    private IInsuranceCommand paymentthTax;
+    private final IInsuranceCommand paymentthTax;
 
 
     public EmploymentContractTaxStrategy(boolean hasDiscount, double deductibleCoast, IInsuranceCommand retirementTax, IInsuranceCommand paymentTax, IInsuranceCommand sicknesthtTax, IInsuranceCommand healthTax, IInsuranceCommand pensionTax) {
