@@ -1,5 +1,12 @@
 
 
+import Command.*;
+import Interface.IInsuranceCommand;
+import Interface.ITaxStrategy;
+import Strategy.ContractOfMandateTaxStrategy;
+import Strategy.EmploymentContractTaxStrategy;
+import Strategy.VatCalculateTaxStrategy;
+
 import javax.swing.*;
 
 public class TaxCalculatorInteractive extends JFrame {

@@ -1,4 +1,9 @@
-public class EmploymentContractTaxStrategy implements ITaxStrategy{
+package Strategy;
+
+import Interface.IInsuranceCommand;
+import Interface.ITaxStrategy;
+
+public class EmploymentContractTaxStrategy implements ITaxStrategy {
 
     private boolean hasDiscount;
 

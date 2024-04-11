@@ -1,4 +1,10 @@
-public class ContractOfMandateTaxStrategy implements ITaxStrategy{
+package Strategy;
+
+import Command.PensionTaxCommand;
+import Interface.IInsuranceCommand;
+import Interface.ITaxStrategy;
+
+public class ContractOfMandateTaxStrategy implements ITaxStrategy {
 
     private boolean hasDiscount;
 

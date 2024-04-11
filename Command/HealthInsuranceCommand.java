@@ -1,3 +1,7 @@
+package Command;
+
+import Interface.IInsuranceCommand;
+
 import java.math.BigDecimal;
 
 public class HealthInsuranceCommand implements IInsuranceCommand {

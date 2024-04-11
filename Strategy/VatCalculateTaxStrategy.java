@@ -1,4 +1,8 @@
-public class VatCalculateTaxStrategy implements ITaxStrategy{
+package Strategy;
+
+import Interface.ITaxStrategy;
+
+public class VatCalculateTaxStrategy implements ITaxStrategy {
 
     private double taxPercent = 0;
 

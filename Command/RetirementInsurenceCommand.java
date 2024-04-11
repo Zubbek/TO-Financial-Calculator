@@ -1,11 +1,15 @@
+package Command;
+
+import Interface.IInsuranceCommand;
+
 import java.math.BigDecimal;
 
-public class SicknessInsuranceCommand  implements IInsuranceCommand{
+public class RetirementInsurenceCommand implements IInsuranceCommand {
 
-    private double taxRate = 0.0245;
+    double taxRate = 0.0976;
     @Override
     public double execute(double amount) {
-        double finaTax = amount * taxRate;
+       double finaTax = amount * taxRate;
         BigDecimal bigDecimal = new BigDecimal(finaTax);
         bigDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
         return bigDecimal.doubleValue();

@@ -1,6 +1,10 @@
+package Command;
+
+import Interface.IInsuranceCommand;
+
 import java.math.BigDecimal;
 
-public class PensionInsuranceCommand implements IInsuranceCommand{
+public class PensionInsuranceCommand implements IInsuranceCommand {
 
     double taxRate = 0.015;
 
